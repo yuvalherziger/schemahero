@@ -58,3 +58,10 @@ type SQLTableSchema struct {
 	Columns     []*SQLTableColumn     `json:"columns,omitempty" yaml:"columns,omitempty"`
 	IsDeleted   bool                  `json:"isDeleted,omitempty" yaml:"isDeleted,omitempty"`
 }
+
+type PostgreSQLExtension struct {
+	Name       string `json:"name" yaml:"name"`
+	Force      bool   `json:"force,omitempty" yaml:"force,omitempty"`
+	Schema     *string `json:"schema,omitempty" yaml:"schema,omitempty"`
+	Version    *string `json:"version,omitempty" yaml:"version,omitempty"`
+}

@@ -53,3 +53,22 @@ func CreateTableStatement(tableName string, tableSchema *schemasv1alpha4.SQLTabl
 
 	return query, nil
 }
+
+func createExtensionStatement(extension *schemasv1alpha4.PostgreSQLExtension) (string, error) {
+	withClause := ""
+	forceClause := " if not exists"
+	if extension.Force {
+		forceClause = ""
+	}
+
+	if extension.Schema != nil {
+		withClause = fmt.Sprintf(` schema %s`, pgx.Identifier{*extension.Schema}.Sanitize())
+	}
+
+	if extension.Version != nil {
+		withClause = fmt.Sprintf(` version %s`, pgx.Identifier{*extension.Version}.Sanitize())
+	}
+
+	query := fmt.Sprintf(`create extension %s%s%s`, pgx.Identifier{extension.Name}.Sanitize(), forceClause, withClause)
+	return query, nil
+}
